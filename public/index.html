@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Verification Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .form-label {
+      font-weight: bold;
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #message {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>User Verification Form</h1>
+    <form id="verificationForm">
+      <!-- Hidden Fields -->
+      <input type="hidden" id="userId" name="userId">
+      <input type="hidden" id="messageId" name="messageId">
+
+      <!-- Form Fields -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="telegramUsername" class="form-label">Telegram Username</label>
+        <input type="text" class="form-control" id="telegramUsername" name="telegramUsername" readonly required>
+      </div>
+      <div class="mb-3">
+        <label for="miId" class="form-label">Mi ID</label>
+        <input type="text" class="form-control" id="miId" name="miId" required>
+      </div>
+      <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" name="country" required>
+      </div>
+      <div class="mb-3">
+        <label for="dob" class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" id="dob" name="dob" required>
+      </div>
+      <div class="mb-3">
+        <label for="reasonToJoin" class="form-label">Reason to Join</label>
+        <textarea class="form-control" id="reasonToJoin" name="reasonToJoin" rows="3" required></textarea>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="termsAccepted" name="termsAccepted" required>
+        <label class="form-check-label" for="termsAccepted">I accept the terms and conditions</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div id="message" class="mt-3"></div>
+  </div>
+
+  <script>
+    // Extract URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user_id');
+    const messageId = urlParams.get('message_id');
+
+    // Set hidden fields
+    document.getElementById('userId').value = userId;
+    document.getElementById('messageId').value = messageId;
+
+    // Fetch Telegram user and group info
+    async function fetchTelegramInfo() {
+      try {
+        const response = await fetch(`http://localhost:3000/telegram-info?user_id=${userId}`);
+        const data = await response.json();
+
+        // Pre-fill form fields
+        document.getElementById('telegramUsername').value = data.telegramUsername;
+      } catch (error) {
+        console.error('Error fetching Telegram info:', error);
+        document.getElementById('message').innerText = 'Failed to fetch Telegram info. Please refresh the page.';
+      }
+    }
+
+    // Call the function to fetch Telegram info
+    fetchTelegramInfo();
+
+    // Handle form submission
+    document.getElementById('verificationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Collect form data
+      const formData = {
+        userId: document.getElementById('userId').value,
+        messageId: document.getElementById('messageId').value,
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        telegramUsername: document.getElementById('telegramUsername').value,
+        miId: document.getElementById('miId').value,
+        country: document.getElementById('country').value,
+        dob: document.getElementById('dob').value,
+        reasonToJoin: document.getElementById('reasonToJoin').value,
+        termsAccepted: document.getElementById('termsAccepted').checked,
+      };
+
+      try {
+        // Submit form data to backend
+        const response = await fetch('http://localhost:3000/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+        document.getElementById('message').innerText = result.message;
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('message').innerText = 'An error occurred. Please try again.';
+      }
+    });
+  </script>
+</body>
+</html>
