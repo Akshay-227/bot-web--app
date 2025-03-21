@@ -96,7 +96,7 @@
     // Fetch Telegram user and group info
     async function fetchTelegramInfo() {
       try {
-        const response = await fetch(`http://localhost:3000/telegram-info?user_id=${userId}`);
+        const response = await fetch(`https://xiaomi-mi-community-ccb9aceza3fagrez.canadacentral-01.azurewebsites.net//telegram-info?user_id=${userId}`);
         const data = await response.json();
 
         // Pre-fill form fields
@@ -130,7 +130,7 @@
 
       try {
         // Submit form data to backend
-        const response = await fetch('http://localhost:3000/submit', {
+        const response = await fetch('https://xiaomi-mi-community-ccb9aceza3fagrez.canadacentral-01.azurewebsites.net//submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
