@@ -3,7 +3,7 @@ name: Deploy Node.js App to Azure App Service
 on:
   push:
     branches:
-      - main # Trigger deployment on push to the main branch
+      - master # Trigger deployment on push to the main branch
 
 jobs:
   build-and-deploy:
