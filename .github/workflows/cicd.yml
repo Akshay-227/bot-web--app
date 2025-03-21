@@ -1,0 +1,33 @@
+name: Deploy Node.js App to Azure App Service
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment on push to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Use the Node.js version your app requires
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Deploy to Azure App Service
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: xiaomi-mi-community # Replace with your Azure App Service name
+          slot-name: production # Optional: Specify a deployment slot
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PROFILE_SECRET }} # Use the publish profile secret
