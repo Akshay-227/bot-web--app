@@ -13,7 +13,6 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
 const SHEET_NAME = process.env.SHEET_NAME || 'Sheet1';
 const SERVICE_ACCOUNT_PATH = process.env.SERVICE_ACCOUNT_PATH || './api.json';
-const GROUP_ID = process.env.GROUP_ID;
 // Google Sheets setup
 const auth = new google.auth.GoogleAuth({
   keyFile: SERVICE_ACCOUNT_PATH, // Path to your service account file
@@ -42,17 +41,17 @@ app.post('/submit', async (req, res) => {
   const formData = req.body;
     console.log('Form data:', formData);
   try {
-    // // Send welcome message
-    // await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
-    //   chat_id: formData.userId,
-    //   text: `🎉 Welcome to xiaomi india official group! 🎉`,
-    // });
+    // Send welcome message
+    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      chat_id: formData.userId,
+      text: `🎉 Welcome to xiaomi india official group! 🎉`,
+    });
 
-    // // Delete welcome message
-    // await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/deleteMessage`, {
-    //   chat_id: formData.groupId,
-    //   message_id: formData.messageId,
-    // });
+    // Delete welcome message
+    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/deleteMessage`, {
+      chat_id: formData.groupId,
+      message_id: formData.messageId,
+    });
 
 
         // Save to Google Sheets
@@ -80,7 +79,7 @@ app.post('/submit', async (req, res) => {
 
     // Unmute user
     await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/restrictChatMember`, {
-      chat_id: GROUP_ID,
+      chat_id: formData.groupId,
       user_id: formData.userId,
       permissions: {
         can_send_messages: true,
@@ -93,8 +92,6 @@ app.post('/submit', async (req, res) => {
         can_pin_messages: false,
       },
     });
-
-
 
     res.json({ message: 'You have been verified & unmuted! Please close the web app.' });
   } catch (error) {

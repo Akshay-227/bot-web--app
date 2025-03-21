@@ -43,7 +43,9 @@
     <form id="verificationForm">
       <!-- Hidden Fields -->
       <input type="hidden" id="userId" name="userId">
+      <input type="hidden" id="groupId" name="groupId">
       <input type="hidden" id="messageId" name="messageId">
+      <input type="hidden" id="groupName" name="groupName">
 
       <!-- Form Fields -->
       <div class="mb-3">
@@ -87,10 +89,12 @@
     // Extract URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('user_id');
+    const groupId = urlParams.get('group_id');
     const messageId = urlParams.get('message_id');
 
     // Set hidden fields
     document.getElementById('userId').value = userId;
+    document.getElementById('groupId').value = groupId;
     document.getElementById('messageId').value = messageId;
 
     // Fetch Telegram user and group info
@@ -116,6 +120,7 @@
 
       // Collect form data
       const formData = {
+        groupId: document.getElementById('groupId').value,
         userId: document.getElementById('userId').value,
         messageId: document.getElementById('messageId').value,
         name: document.getElementById('name').value,
@@ -130,7 +135,7 @@
 
       try {
         // Submit form data to backend
-        const response = await fetch('https://xiaomi-mi-community-ccb9aceza3fagrez.canadacentral-01.azurewebsites.net//submit', {
+        const response = await fetch('http://localhost:3000/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
