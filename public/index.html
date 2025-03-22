@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Verification Form</title>
+  <title>Xiaomi India</title>
+  <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #f8f9fa;
       font-family: Arial, sans-serif;
     }
+
     .container {
-      max-width: 600px;
+      max-width: 700px;
       margin-top: 50px;
+      margin-bottom: 10px;
       background: #fff;
       padding: 25px;
       border-radius: 10px;
@@ -21,24 +25,28 @@
     h1 {
       text-align: center;
       margin-bottom: 25px;
-      color: #333;
-      font-weight: bold;
+      color: #Fd4900;
+      font-weight: semi-bold;
     }
+
     .form-label {
       font-weight: bold;
       color: #555;
     }
+
     .btn-primary {
       width: 100%;
       padding: 12px;
       font-size: 16px;
       font-weight: bold;
-      background-color: #007bff;
+      background-color: #Fd4900;
       border: none;
     }
+
     .btn-primary:hover {
-      background-color: #0056b3;
+      background-color: #D13D00;
     }
+
     #message {
       margin-top: 20px;
       text-align: center;
@@ -46,26 +54,28 @@
       padding: 10px;
       border-radius: 5px;
     }
+
     .success-message {
-      color: #28a745;
+      color: #Fd4900;
       background-color: #d4edda;
       border: 1px solid #c3e6cb;
     }
+
     .error-message {
-      color: #dc3545;
+      color: #Fd4900;
       background-color: #f8d7da;
       border: 1px solid #f5c6cb;
     }
     .form-control:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      border-color: #ebaa90;
+      box-shadow: 0 0 5px rgba(253, 73, 0, 0.5) /* 50% transparent */
     }
     .form-check-label {
       color: #555;
     }
     .form-check-input:checked {
-      background-color: #007bff;
-      border-color: #007bff;
+      background-color: #Fd4900;
+      border-color: #f86d36;
     }
     .info-text {
       font-size: 0.9em;
@@ -75,8 +85,12 @@
   </style>
 </head>
 <body>
+  <div>
+    <img src="/public/img/logo.png" alt="logo" style="width: 55px; margin: 10px; margin-bottom: 20px;">
+  </div>
+  <hr style="width: 80%; margin: 0 auto; margin-bottom: 10px; border: 2px solid #Fd4900;">
   <div class="container">
-    <h1>User Verification Form</h1>
+    <h1>Xiaomi India User Verification Form</h1>
     <form id="verificationForm">
       <!-- Hidden Fields -->
       <input type="hidden" id="userId" name="userId">
@@ -116,34 +130,39 @@
         <label for="reasonToJoin" class="form-label">Reason to Join</label>
         <textarea class="form-control" id="reasonToJoin" name="reasonToJoin" rows="3" required></textarea>
       </div>
-  
+
       <!-- Group Rules -->
       <div class="mb-3">
         <h4>Group Rules</h4>
-        <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; max-height: 150px; overflow-y: auto; background-color: #f9f9f9;">
+        <div
+          style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; max-height: 200px; overflow-y: auto; background-color: #f9f9f9;">
           <ol style="margin: 0; padding-left: 20px;">
             <li style="margin-bottom: 10px;">
-              <strong>Respectful Communication:</strong> Using abusive language, personally degrading others, or engaging in any form of social discrimination will result in an immediate ban from the group.
+              <strong>Respectful Communication:</strong> Using abusive language, personally degrading others, or
+              engaging in any form of social discrimination will result in an immediate ban from the group.
             </li>
             <li style="margin-bottom: 10px;">
-              <strong>Healthy Discussions:</strong> Maintain a positive and constructive environment. Engage in respectful and meaningful conversations with fellow group members.
+              <strong>Healthy Discussions:</strong> Maintain a positive and constructive environment. Engage in
+              respectful and meaningful conversations with fellow group members.
             </li>
             <li style="margin-bottom: 10px;">
-              <strong>No Illegal Activities:</strong> Promoting or encouraging any illegal activities within the group or through direct messages to other members will lead to a ban upon reporting.
+              <strong>No Illegal Activities:</strong> Promoting or encouraging any illegal activities within the group
+              or through direct messages to other members will lead to a ban upon reporting.
             </li>
             <li style="margin-bottom: 10px;">
-              <strong>Community Integrity:</strong> Any member found encouraging anti-community activities or violating the group's purpose will be banned from the Xiaomi Community across all platforms.
+              <strong>Community Integrity:</strong> Any member found encouraging anti-community activities or violating
+              the group's purpose will be banned from the Xiaomi Community across all platforms.
             </li>
           </ol>
         </div>
       </div>
-  
+
       <!-- Terms and Conditions -->
       <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="termsAccepted" name="termsAccepted" required>
         <label class="form-check-label" for="termsAccepted">I accept the terms and conditions</label>
       </div>
-  
+
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
@@ -236,4 +255,5 @@
     });
   </script>
 </body>
+
 </html>
