@@ -8,32 +8,69 @@
   <style>
     body {
       background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
     }
     .container {
       max-width: 600px;
       margin-top: 50px;
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       color: #333;
+      font-weight: bold;
     }
     .form-label {
       font-weight: bold;
+      color: #555;
     }
     .btn-primary {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
+      font-weight: bold;
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
     }
     #message {
       margin-top: 20px;
       text-align: center;
       font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .success-message {
+      color: #28a745;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+    }
+    .error-message {
+      color: #dc3545;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+    }
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .form-check-label {
+      color: #555;
+    }
+    .form-check-input:checked {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .info-text {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -59,10 +96,12 @@
       <div class="mb-3">
         <label for="telegramUsername" class="form-label">Telegram Username</label>
         <input type="text" class="form-control" id="telegramUsername" name="telegramUsername" readonly required>
+        <div class="info-text">(Telegram settings - username)</div>
       </div>
       <div class="mb-3">
         <label for="miId" class="form-label">Mi ID</label>
         <input type="text" class="form-control" id="miId" name="miId" required>
+        <div class="info-text">(Mi store - Profile - Mi ID)</div>
       </div>
       <div class="mb-3">
         <label for="country" class="form-label">Country</label>
@@ -71,6 +110,7 @@
       <div class="mb-3">
         <label for="dob" class="form-label">Date of Birth</label>
         <input type="date" class="form-control" id="dob" name="dob" required>
+        <div class="info-text">(For Birthday Wishes)</div>
       </div>
       <div class="mb-3">
         <label for="reasonToJoin" class="form-label">Reason to Join</label>
@@ -101,13 +141,16 @@
     async function fetchTelegramInfo() {
       try {
         const response = await fetch(`https://xiaomi-mi-community-ccb9aceza3fagrez.canadacentral-01.azurewebsites.net/telegram-info?user_id=${userId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
 
         // Pre-fill form fields
         document.getElementById('telegramUsername').value = data.telegramUsername;
       } catch (error) {
-        console.error('Error fetching Telegram info:', error);
-        document.getElementById('message').innerText = 'Failed to fetch Telegram info. Please refresh the page.';
+        document.getElementById('message').innerText = `Error fetching Telegram info: ${error.message}`;
+        document.getElementById('message').className = 'error-message';
       }
     }
 
@@ -117,6 +160,16 @@
     // Handle form submission
     document.getElementById('verificationForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Validate DOB (prevent future dates)
+      const dobInput = document.getElementById('dob');
+      const dob = new Date(dobInput.value);
+      const today = new Date();
+      if (dob > today) {
+        document.getElementById('message').innerText = 'Date of Birth cannot be in the future.';
+        document.getElementById('message').className = 'error-message';
+        return;
+      }
 
       // Collect form data
       const formData = {
@@ -143,11 +196,17 @@
           body: JSON.stringify(formData),
         });
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const result = await response.json();
         document.getElementById('message').innerText = result.message;
+        document.getElementById('message').className = 'success-message';
       } catch (error) {
         console.error('Error:', error);
-        document.getElementById('message').innerText = 'An error occurred. Please try again.';
+        document.getElementById('message').innerText = `An error occurred: ${error.message}`;
+        document.getElementById('message').className = 'error-message';
       }
     });
   </script>
