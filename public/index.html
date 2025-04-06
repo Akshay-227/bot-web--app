@@ -85,11 +85,11 @@
   </style>
 </head>
 <body>
-  <div>
+  <div style="display: flex; justify-content: center; align-items: center;">
     <img src="logo.png" alt="logo" style="width: 40px; margin: 10px;">
   </div>
   <div class="container">
-    <h1>Xiaomi Community India</h1>
+    <h1><B>Xiaomi Community India</B></h1>
     <form id="verificationForm">
       <!-- Hidden Fields -->
       <input type="hidden" id="userId" name="userId">
@@ -113,7 +113,7 @@
       </div>
       <div class="mb-3">
         <label for="miId" class="form-label">Mi ID</label>
-        <input type="number" class="form-control" id="miId" name="miId" required>
+        <input type="number" class="form-control" id="miId" name="miId" pattern="\d{8,10}" required>
         <div class="info-text">(Mi store - Profile - Mi ID)</div>
       </div>
       <div class="mb-3">
@@ -152,6 +152,10 @@
               <strong>Community Integrity:</strong> Any member found encouraging anti-community activities or violating
               the group's purpose will be banned from the Xiaomi Community across all platforms.
             </li>
+            <li style="margin-bottom: 10px;">
+              <strong>Accurate Information:</strong> Providing false or incorrect information may result in a ban from the community.
+            </li>
+            
           </ol>
         </div>
       </div>
