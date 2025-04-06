@@ -85,7 +85,7 @@
   </style>
 </head>
 <body>
-  <div style="display: flex; justify-content: center; align-items: center;">
+  <div>
     <img src="logo.png" alt="logo" style="width: 40px; margin: 10px;">
   </div>
   <div class="container">
@@ -187,7 +187,7 @@
     // Fetch Telegram user and group info
     async function fetchTelegramInfo() {
       try {
-        const response = await fetch(`https://xiaomi-mi-community-ccb9aceza3fagrez.canadacentral-01.azurewebsites.net/telegram-info?user_id=${userId}`);
+        const response = await fetch(`/telegram-info?user_id=${userId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -235,7 +235,7 @@
 
       try {
         // Submit form data to backend
-        const response = await fetch('https://xiaomi-mi-community-ccb9aceza3fagrez.canadacentral-01.azurewebsites.net/submit', {
+        const response = await fetch('/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
